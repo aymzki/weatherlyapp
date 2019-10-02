@@ -1,4 +1,5 @@
 
+
 $(document).ready(function () {
   var mainIngredient;
   var drinkIngredient;
@@ -83,6 +84,9 @@ $(document).ready(function () {
             var nameDisplay = $("<h3>").text(mealName);
             displayImage.attr("src", image);
             displayImage.attr("data-category", mealResults[0].strCategory);
+            displayImage.attr("data-recipe", newArray);
+            displayImage.attr("data-name", mealResults[0].strMeal);
+            displayImage.attr("data-instructions", instructions);
             displayImage.addClass("image");
             displayImage.addClass("z-depth-5");
             //RECIPE BLOCK
@@ -230,6 +234,9 @@ $(document).ready(function () {
           //to get the jpgs
           var pixDisplay = $("<img>");
           pixDisplay.attr("src", results[i].strDrinkThumb);
+          pixDisplay.attr("data-name", results[i].strDrink);
+          pixDisplay.attr("data-instructions", drinkInstuctions);
+          pixDisplay.attr("data-recipe", newArray);
           pixDisplay.attr("class", "drinkGif");
           pixDisplay.addClass("z-depth-5");
           //create a new div to hold all the stuff above
