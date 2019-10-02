@@ -29,7 +29,7 @@ $(document).ready(function () {
       //stores the chicken breast meals response in a variable called results
       var results = response.meals
       //for each meal go in and find the mealID
-      for (var i = 0; i < results.length; i++) {
+      for (var i = 0; i < 10; i++) {
         var mealID = results[i].idMeal;
         //search the mealID of each chicken breast meal response
         var mealURL = "https://www.themealdb.com/api/json/v2/9973533/lookup.php?i=" + mealID;
@@ -52,6 +52,8 @@ $(document).ready(function () {
             var parentRow = $("<div>");
             var leftColDiv = $("<div>");
             var rightColDiv = $("<div>");
+            var ingredientsHeader = $("<h5>");
+            var instructionsHeader = $("<h5>");
             var childRow = $("<div>");
             //creates a new image tag to display each image
             var displayImage = $("<img>");
@@ -76,18 +78,30 @@ $(document).ready(function () {
               newDiv.text(newArray[x]);
               rightColDiv.append(newDiv);
             };
+
+            var mealName = mealResults[j].strMeal;
+            var nameDisplay = $("<h3>").text(mealName);
             displayImage.attr("src", image);
             displayImage.attr("data-category", mealResults[0].strCategory);
             displayImage.addClass("image");
-            displayImage.attr("data-recipe", newArray);
-            displayImage.attr("data-name", mealResults[0].strMeal);
-            displayImage.attr("data-instructions", instructions);
-            parentRow.addClass("row px-0");
+            displayImage.addClass("z-depth-5");
+            //RECIPE BLOCK
+            parentRow.addClass("row px-0");
+
+            //IMAGE DIV CONTAINER
+            leftColDiv.prepend(nameDisplay);
             leftColDiv.append(displayImage);
-            leftColDiv.addClass("col-6 pl-0");
-            rightColDiv.addClass("col-6");
+            leftColDiv.addClass("col-6 mb-3 pl-0");
+
+
+            //INGREDIENTS
+            ingredientsHeader.text("Ingredients");
+            instructionsHeader.text("Instructions");
+            rightColDiv.addClass("col-6 mb-3");
+            rightColDiv.prepend(ingredientsHeader);
             childRow.append(instructions);
-            childRow.addClass("row mx-0");
+            childRow.prepend(instructionsHeader)
+            childRow.addClass("row mx-0");
             $(parentRow).append(leftColDiv, rightColDiv, childRow);
             $("#recipe-view").append(parentRow);
           };
@@ -114,10 +128,10 @@ $(document).ready(function () {
       url: queryURL,
       method: "GET"
     }).then(function (response) {
-      try{
+      try {
         console.log("worked");
       }
-      catch(err){
+      catch (err) {
         document.getElementById("errorMessage").textContent = err;
       }
       console.log(response);
@@ -203,23 +217,25 @@ $(document).ready(function () {
             measuredIngredientsDisplay.append(newDiv);
           }
           //to get the drink Names 
+          var ingredientTitle = $("<h5>").text("Ingredients");
+          //to get the drink Names 
           var drinkName = results[i].strDrink;
-          var nameDisplay = $("<p>").text(drinkName);
-          //to get instructions
-          var drinkInstructions = results[i].strInstructions;
-          var instructionsDisplay = $("<p>").text(drinkInstructions);
-          //to get the jpgs
+          var nameDisplay = $("<h3>").text(drinkName);
+
+          var instructionsTitle = $("<h5>").text("Instructions");
+          //to get instructions
+          var drinkInstuctions = results[i].strInstructions;
+          var instructionsDisplay = $("<p>").text(drinkInstuctions);
+
+          //to get the jpgs
           var pixDisplay = $("<img>");
           pixDisplay.attr("src", results[i].strDrinkThumb);
-          pixDisplay.attr("data-name", results[i].strDrink);
-          pixDisplay.attr("data-instructions", drinkInstructions);
-          pixDisplay.attr("data-recipe", newArray);
           pixDisplay.attr("class", "drinkGif");
-          pixDisplay.addClass("drinks");
-          //create a new div to hold all the stuff above
+          pixDisplay.addClass("z-depth-5");
+          //create a new div to hold all the stuff above
           var bigDiv = $("<div>");
-          bigDiv.append(nameDisplay, measuredIngredientsDisplay, instructionsDisplay, pixDisplay);
-          drinksArray.push(bigDiv); //create a new drinks array
+          bigDiv.append(nameDisplay, ingredientTitle, measuredIngredientsDisplay, instructionsTitle, instructionsDisplay, pixDisplay);
+          drinksArray.push(bigDiv);
         }
         displayThreeDrinks();
       });
